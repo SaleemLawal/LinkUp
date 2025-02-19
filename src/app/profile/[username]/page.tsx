@@ -8,12 +8,14 @@ import { notFound } from "next/navigation";
 import React from "react";
 import ProfilePageClient from "./ProfilePageClient";
 
+type tParams = Promise<{ username: string }>;
+
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: tParams;
 }) {
-  const { username } = await params;
+  const username = (await params).username;
   const user = await getProfileByUsername(username);
   if (!user) return;
 
@@ -22,8 +24,8 @@ export async function generateMetadata({
     description: user.bio || `check out ${user.username}'s profile.`,
   };
 }
-async function ProfilePageServer({ params }: { params: { username: string } }) {
-  const { username } = await params;
+async function ProfilePageServer({ params }: { params: tParams }) {
+  const username = (await params).username;
 
   const user = await getProfileByUsername(username);
 
