@@ -67,7 +67,6 @@ export const getPosts = async () => {
         },
       },
     });
-    // console.log(posts)
 
     return { success: true, posts };
   } catch (error) {
